@@ -12,20 +12,20 @@ services:
     volumes:
       - pg_kittygram_data:/var/lib/postgresql/data
   backend:
-    build: ./backend/
+    image: crossmos/kittygram_backend
     env_file: .env
     volumes:
       - static:/backend_static
     depends_on:
       - db
   frontend:
+    image: crossmos/kittygram_frontend
     env_file: .env
-    build: ./frontend/
-    command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
+    command: cp -r /app/build/. /frontend_static/
   gateway:
-    build: ./nginx/
+    image: crossmos/kittygram_gateway
     env_file: .env
     ports:
       - 9000:80
