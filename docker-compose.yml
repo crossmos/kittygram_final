@@ -8,14 +8,15 @@ volumes:
 services:
   db:
     image: postgres:13.10
-    env_file: .env    
+    env_file: .env
     volumes:
       - pg_kittygram_data:/var/lib/postgresql/data
   backend:
-    build: ./backend/
     env_file: .env
+    build: ./backend/
     volumes:
       - static:/backend_static
+      - media:/media
     depends_on:
       - db
   frontend:
@@ -31,3 +32,6 @@ services:
       - 9000:80
     volumes:
       - static:/static
+      - media:/media
+    depends_on:
+      - backend
